@@ -24,7 +24,7 @@ class CommentFactory extends Factory
         return [
             'comment'=>$this->faker->text($maxNbChars = 500),
             'user_id' => rand(1,10),
-            'post_id' => rand(2,51)
+            'post_id' => rand(1,50)
         ];
     }
 }
