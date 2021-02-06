@@ -2,18 +2,26 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Comment;
+use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class PostController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
-        //
+        $posts = Post::all();
+        return response()->json([
+            'success'=> true,
+            'message'=>'post list',
+            'data'=> $posts,
+        ]);
     }
 
     /**
@@ -30,22 +38,48 @@ class PostController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
-        //
+        $formData = $request->all();
+        $validator = Validator::make($formData, [
+            'title' => ['required'],
+            'description' => ['required','max:5000'],
+            'user_id' => ['required'],
+        ]);
+        if($validator->fails()){
+            return response()->json([
+                'success'=> false,
+                'message'=>$validator->errors(),
+            ]);
+        }
+        $post = New Post();
+        $post->title =$request->title;
+        $post->description =$request->description;
+        $post->user_id =$request->user_id;
+        $post->save();
+        return response()->json([
+            'success'=> true,
+            'message'=>'post saved',
+            'data'=> $post,
+        ]);
     }
 
     /**
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show($id)
     {
-        //
+        $post = Post::find($id);
+        return response()->json([
+            'success'=> true,
+            'message'=>'Post details',
+            'data'=>$post
+        ]);
     }
 
     /**
@@ -80,5 +114,16 @@ class PostController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+
+    public function postComments($id)
+    {
+        $comments = Comment::where('post_id',$id)->get();
+        return response()->json([
+            'success'=> true,
+            'message'=>'Post comments',
+            'data'=>$comments
+        ]);
     }
 }

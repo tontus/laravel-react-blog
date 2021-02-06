@@ -56,7 +56,7 @@ class UserController extends Controller
         $user->name =$request->name;
         $user->username =$request->username;
         $user->email =$request->email;
-        $user->password ='$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi';
+        $user->password ='$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uhzeWG/igi';
 //        $user->email_verified_at = now();
 //        $user->remember_token = Str::random(10);
         $user->save();
