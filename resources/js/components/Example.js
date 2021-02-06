@@ -1,24 +1,22 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Alert} from "react-bootstrap";
+import {Alert, Card, Container} from "react-bootstrap";
 
 function Example() {
     return (
 
-            [
-            'primary',
-            'secondary',
-            'success',
-            'danger',
-            'warning',
-            'info',
-            'light',
-            'dark',
-            ].map((variant, idx) => (
-            <Alert key={idx} variant={variant}>
-                This is a {variant} alert—check it out!
-            </Alert>
-            ))
+            <Container>
+                <Card>
+                    <Card.Body>
+                        <Card.Title>
+                            dfadf
+                        </Card.Title>
+                        <Card.Text>
+                            fdsf
+                        </Card.Text>
+                    </Card.Body>
+                </Card>
+            </Container>
 
     );
 }
