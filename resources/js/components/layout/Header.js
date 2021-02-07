@@ -14,6 +14,7 @@ function Header() {
                             <Nav.Link href="/">Posts</Nav.Link>
                             <Nav.Link href="/users">Users</Nav.Link>
                             <Nav.Link href="/register">Register</Nav.Link>
+                            <Nav.Link href="/login">login</Nav.Link>
                         </Nav>
 
                     </Navbar.Collapse>

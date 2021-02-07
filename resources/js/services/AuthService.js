@@ -10,3 +10,11 @@ export const register = async (data) => {
         })
 
 }
+export const login = async (data) => {
+    console.log(data)
+    return await axios.post(baseURL.concat('login'),data)
+        .then(res => {
+            return  res.data;
+        })
+
+}
