@@ -13,12 +13,16 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return User[]|\Illuminate\Database\Eloquent\Collection
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
-        $users = User::all();
-        return $users;
+        $users = User::withCount('posts')->get();
+        return response()->json([
+            'success'=> true,
+            'message'=>'user list',
+            'data'=> $users,
+        ]);
     }
 
     /**

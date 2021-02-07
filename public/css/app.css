@@ -9763,3 +9763,7 @@ a.text-dark:hover, a.text-dark:focus {
   }
 }
 
+a, a:hover {
+  text-decoration: none;
+}
+

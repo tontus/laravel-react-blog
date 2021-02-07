@@ -9929,5 +9929,8 @@ h3 {
     border-color: #dee2e6;
   }
 }
+a, a:hover {
+  text-decoration: none;
+}
 
 /*# sourceMappingURL=app.css.map */
