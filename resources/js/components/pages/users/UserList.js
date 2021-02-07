@@ -1,4 +1,4 @@
-import {Badge, Button, Card, Dropdown, DropdownButton, Table} from "react-bootstrap";
+import {Badge, Button, Card, Dropdown, DropdownButton, Form, Table} from "react-bootstrap";
 import React, {useEffect, useState} from "react";
 import {Link} from "react-router-dom";
 import {fetchAllUsers} from "../../../services/UserService";
@@ -7,13 +7,14 @@ import {fetchAllUsers} from "../../../services/UserService";
 function UserList() {
     const [users, setUsers] = useState([])
     const [sortInfo, setSortInfo] = useState(null)
+    const [filter, setFilter] = useState('')
     const getAllUser = async () => {
         const getResponse = await fetchAllUsers();
         setUsers(getResponse.data)
     }
-    let sortedUser = [...users]
+    let modifiedUser = [...users]
     if (sortInfo != null) {
-        sortedUser.sort((a, b) => {
+        modifiedUser.sort((a, b) => {
             if (a[sortInfo.key] < b[sortInfo.key]) {
                 return sortInfo.direction === 'asc' ? -1 : 1;
             }
@@ -23,6 +24,12 @@ function UserList() {
             return 0;
         });
     }
+    const includedColumns = ["name", "username",'email'];
+     modifiedUser = users.filter(item => {
+         return Object.keys(item).some(key =>
+             includedColumns.includes(key) && typeof item[key] === "string" && item[key].toLowerCase().includes(filter.toLocaleLowerCase())
+         );
+     });
 
     useEffect(() => {
         getAllUser()
@@ -30,12 +37,21 @@ function UserList() {
     return (
         <>
             <div className={'row mt-3'}>
-                {
-                    sortInfo ? (<div className={'col-4'}>
-                        Sorted by: {sortInfo.key} ( {sortInfo.direction} )
-                    </div>) : (<div></div>)
-                }
+                <div className={'col-4'}>
+                    {
+                        sortInfo ? (<>
+                                Sorted by: {sortInfo.key} ( {sortInfo.direction} ) </>
+                        ) : (<></>)
 
+                    }
+                </div>
+                <div className={'col-4'}>
+                    <Form>
+                        <Form.Group controlId="formBasicEmail">
+                            <Form.Label>Type any thing to search</Form.Label>
+                        </Form.Group>
+                    </Form>
+                </div>
             </div>
             <div className={'row'}>
                 <div className={'col-4'}>
@@ -55,6 +71,18 @@ function UserList() {
                     </DropdownButton>
 
                 </div>
+                <div className={'col-4'}>
+                    <Form>
+                        <Form.Group controlId="formBasicEmail">
+                            <Form.Control type="text"
+                                          value={filter}
+                                          onChange={(e) => {
+                                              setFilter(e.target.value)
+                                          }}
+                            />
+                        </Form.Group>
+                    </Form>
+                </div>
             </div>
 
             <Table striped bordered hover className={'mt-3'}>
@@ -66,7 +94,7 @@ function UserList() {
                 </tr>
                 </thead>
                 <tbody>
-                {sortedUser.map((user, index) => (
+                {modifiedUser.map((user, index) => (
                     <tr key={index}>
 
                         <td><Link to={`/users/${user.id}`}>{user.name} </Link></td>
