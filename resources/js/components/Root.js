@@ -10,6 +10,7 @@ import {
 import PostList from "./pages/posts/PostList";
 import Header from "./layout/Header";
 import PostView from "./pages/posts/PostView";
+import UserList from "./pages/users/UserList";
 
 
 function Root() {
@@ -22,7 +23,7 @@ function Root() {
                     <Switch>
                         <Route path="/posts/:id" exact={true} component={PostView}/>
                         <Route path="/users" exact={true}>
-                           <h1>TODO user list</h1>
+                           <UserList/>
                         </Route>
                         <Route path="/" exact={true}>
                             <Redirect to="/posts"/>
