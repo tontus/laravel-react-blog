@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import ReactDOM from 'react-dom';
 import {Alert, Card, Container} from "react-bootstrap";
 import {
@@ -15,27 +15,30 @@ import UserView from "./pages/users/UserView";
 import Footer from "./layout/Footer";
 import Register from "./pages/auths/Register";
 import Login from "./pages/auths/Login";
+import {checkAuth} from "../services/AuthService";
+import PrivateRoute from "./PrivateRoute";
 
 
 function Root() {
+    const [isLoggedIn, setIsLoggedIn] = useState(false)
+    useEffect(() => {
+        if (checkAuth()) {
+            setIsLoggedIn(true)
+        }
+    }, [])
     return (
         <Router>
             <>
                 <Header/>
-
                 <Container>
                     <Switch>
-                        <Route path="/posts/:id" exact={true} component={PostView}/>
-                        <Route path="/users/:id" exact={true} component={UserView}/>
-                        <Route path="/users" exact={true}>
-                           <UserList/>
-                        </Route>
+                        <PrivateRoute path="/posts/:id" authed={isLoggedIn} exact={true} component={PostView}/>
+                        <PrivateRoute path="/users/:id" authed={isLoggedIn} exact={true} component={UserView}/>
+                        <PrivateRoute path="/users" authed={isLoggedIn} exact={true} component={UserList}/>
                         <Route path="/" exact={true}>
                             <Redirect to="/posts"/>
                         </Route>
-                        <Route path="/posts" exact={true}>
-                            <PostList/>
-                        </Route>
+                        <PrivateRoute path="/posts" authed={isLoggedIn} exact={true} component={PostList}/>
                         <Route path="/register" exact={true}>
                             <Register/>
                         </Route>

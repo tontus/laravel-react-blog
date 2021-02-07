@@ -11,10 +11,23 @@ export const register = async (data) => {
 
 }
 export const login = async (data) => {
-    console.log(data)
     return await axios.post(baseURL.concat('login'),data)
         .then(res => {
+            localStorage.setItem('loginData',res.data);
             return  res.data;
         })
 
+}
+
+export const checkAuth = ()=>{
+    const getLoginData = localStorage.getItem('loginData')
+    if(getLoginData !== null){
+        const data = JSON.parse(getLoginData)
+        if (data.success && data.access_token !== null)
+            return data.user
+        else
+            return false
+    }
+    else
+        return false
 }
