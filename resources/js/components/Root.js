@@ -13,6 +13,7 @@ import PostView from "./pages/posts/PostView";
 import UserList from "./pages/users/UserList";
 import UserView from "./pages/users/UserView";
 import Footer from "./layout/Footer";
+import Register from "./pages/auths/Register";
 
 
 function Root() {
@@ -33,6 +34,8 @@ function Root() {
                         </Route>
                         <Route path="/posts" exact={true}>
                             <PostList/>
+                        </Route><Route path="/register" exact={true}>
+                            <Register/>
                         </Route>
 
                     </Switch>
