@@ -12,6 +12,7 @@ import Header from "./layout/Header";
 import PostView from "./pages/posts/PostView";
 import UserList from "./pages/users/UserList";
 import UserView from "./pages/users/UserView";
+import Footer from "./layout/Footer";
 
 
 function Root() {
@@ -36,6 +37,7 @@ function Root() {
 
                     </Switch>
                 </Container>
+                <Footer/>
 
             </>
 
