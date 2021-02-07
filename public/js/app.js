@@ -2323,16 +2323,38 @@ function PostList() {
       posts = _useState2[0],
       setPosts = _useState2[1];
 
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(10),
+      _useState4 = _slicedToArray(_useState3, 2),
+      visible = _useState4[0],
+      setVisible = _useState4[1];
+
+  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
+      _useState6 = _slicedToArray(_useState5, 2),
+      showAllLoadButton = _useState6[0],
+      setShowAllLoadButton = _useState6[1];
+
+  var showMorePosts = function showMorePosts() {
+    setVisible(visible + 10);
+
+    if (visible >= posts.length) {
+      setShowAllLoadButton(false);
+    }
+  };
+
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     axios.get(baseURL).then(function (response) {
       setPosts(response.data.data);
+
+      if (visible >= posts.length) {
+        setShowAllLoadButton(false);
+      }
     })["catch"](function (error) {
       // handle error
       console.log(error);
     });
   });
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.Fragment, {
-    children: [" ", posts.map(function (post, index) {
+    children: [" ", posts.slice(0, visible).map(function (post, index) {
       return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__.default, {
         className: 'mt-3',
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__.default.Header, {
@@ -2346,14 +2368,21 @@ function PostList() {
             })]
           })]
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__.default.Body, {
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__.default.Text, {
-            children: post.description
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__.default.Text, {
+            children: [post.description.substring(0, 200), " ... ... ..."]
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(react_bootstrap__WEBPACK_IMPORTED_MODULE_4__.default, {
             variant: "primary",
-            children: "Go somewhere"
+            children: "Read more"
           })]
         })]
       }, index);
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+      className: "text-center mt-3",
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(react_bootstrap__WEBPACK_IMPORTED_MODULE_4__.default, {
+        className: "btn btn-success",
+        onClick: showMorePosts,
+        children: "Load More..."
+      })
     })]
   });
 }
