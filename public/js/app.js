@@ -5684,9 +5684,39 @@ function UserList() {
     };
   }();
 
-  var modifiedUser = _toConsumableArray(users);
+  var modifiedUser;
+  (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(function () {
+    getAllUser().then(function () {});
+
+    if (localStorage.getItem('modifiedUser')) {
+      modifiedUser = JSON.parse(localStorage.getItem('modifiedUser'));
+    }
+
+    if (localStorage.getItem('filter')) {
+      setFilter(JSON.parse(localStorage.getItem('filter')));
+    }
+
+    if (localStorage.getItem('sortInfo')) {
+      setSortInfo(JSON.parse(localStorage.getItem('sortInfo')));
+    }
+  }, []);
+  (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(function () {
+    localStorage.setItem('modifiedUser', JSON.stringify(modifiedUser));
+    localStorage.setItem('filter', JSON.stringify(filter));
+    localStorage.setItem('sortInfo', JSON.stringify(sortInfo));
+  });
+  var includedColumns = ["name", "username", 'email'];
+  modifiedUser = users.filter(function (item) {
+    return Object.keys(item).some(function (key) {
+      return includedColumns.includes(key) && typeof item[key] === "string" && item[key].toLowerCase().includes(filter.toLocaleLowerCase());
+    });
+  });
 
   if (sortInfo != null) {
+    if (modifiedUser === null) {
+      modifiedUser = _toConsumableArray(users);
+    }
+
     modifiedUser.sort(function (a, b) {
       if (a[sortInfo.key] < b[sortInfo.key]) {
         return sortInfo.direction === 'asc' ? -1 : 1;
@@ -5700,15 +5730,6 @@ function UserList() {
     });
   }
 
-  var includedColumns = ["name", "username", 'email'];
-  modifiedUser = users.filter(function (item) {
-    return Object.keys(item).some(function (key) {
-      return includedColumns.includes(key) && typeof item[key] === "string" && item[key].toLowerCase().includes(filter.toLocaleLowerCase());
-    });
-  });
-  (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(function () {
-    getAllUser();
-  }, []);
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.Fragment, {
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
       className: 'row mt-3',

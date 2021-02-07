@@ -12,8 +12,41 @@ function UserList() {
         const getResponse = await fetchAllUsers();
         setUsers(getResponse.data)
     }
-    let modifiedUser = [...users]
+    let modifiedUser
+
+    useEffect(() => {
+        getAllUser().then(() => {
+
+        })
+        if (localStorage.getItem('modifiedUser')) {
+            modifiedUser = JSON.parse(localStorage.getItem('modifiedUser'))
+        }
+        if (localStorage.getItem('filter')) {
+            setFilter(JSON.parse(localStorage.getItem('filter')))
+        }
+        if (localStorage.getItem('sortInfo')) {
+            setSortInfo(JSON.parse(localStorage.getItem('sortInfo')))
+        }
+
+    }, []);
+
+    useEffect(() => {
+            localStorage.setItem('modifiedUser', JSON.stringify(modifiedUser))
+            localStorage.setItem('filter', JSON.stringify(filter))
+            localStorage.setItem('sortInfo', JSON.stringify(sortInfo))
+        }
+    )
+    const includedColumns = ["name", "username", 'email'];
+    modifiedUser = users.filter(item => {
+        return Object.keys(item).some(key =>
+            includedColumns.includes(key) && typeof item[key] === "string" && item[key].toLowerCase().includes(filter.toLocaleLowerCase())
+        );
+    });
     if (sortInfo != null) {
+
+        if (modifiedUser === null) {
+            modifiedUser = [...users]
+        }
         modifiedUser.sort((a, b) => {
             if (a[sortInfo.key] < b[sortInfo.key]) {
                 return sortInfo.direction === 'asc' ? -1 : 1;
@@ -24,16 +57,7 @@ function UserList() {
             return 0;
         });
     }
-    const includedColumns = ["name", "username",'email'];
-     modifiedUser = users.filter(item => {
-         return Object.keys(item).some(key =>
-             includedColumns.includes(key) && typeof item[key] === "string" && item[key].toLowerCase().includes(filter.toLocaleLowerCase())
-         );
-     });
 
-    useEffect(() => {
-        getAllUser()
-    }, []);
     return (
         <>
             <div className={'row mt-3'}>
