@@ -1,4 +1,4 @@
-import {Badge, Button, Card, Dropdown, DropdownButton, Form, Table} from "react-bootstrap";
+import {Badge, Button, Card, Dropdown, DropdownButton, Form, Pagination, Table} from "react-bootstrap";
 import React, {useEffect, useState} from "react";
 import {Link} from "react-router-dom";
 import {fetchAllUsers} from "../../../services/UserService";
@@ -8,16 +8,24 @@ function UserList() {
     const [users, setUsers] = useState([])
     const [sortInfo, setSortInfo] = useState(null)
     const [filter, setFilter] = useState('')
+    const [itemPerPage, setItemPerPage] = useState(100)
+    const [currentPage, setCurrentPage] = useState(1)
     const getAllUser = async () => {
         const getResponse = await fetchAllUsers();
         setUsers(getResponse.data)
     }
     let modifiedUser
+    let lastItem = currentPage * itemPerPage
+    let firstItem = lastItem - itemPerPage
 
     useEffect(() => {
+
         getAllUser().then(() => {
 
         })
+        if (localStorage.getItem('currentPage')) {
+            setCurrentPage(parseInt(localStorage.getItem('currentPage')))
+        }
         if (localStorage.getItem('modifiedUser')) {
             modifiedUser = JSON.parse(localStorage.getItem('modifiedUser'))
         }
@@ -27,13 +35,18 @@ function UserList() {
         if (localStorage.getItem('sortInfo')) {
             setSortInfo(JSON.parse(localStorage.getItem('sortInfo')))
         }
+        if (localStorage.getItem('itemPerPage')) {
+            setItemPerPage(parseInt(localStorage.getItem('itemPerPage')))
+        }
 
     }, []);
 
     useEffect(() => {
+            localStorage.setItem('currentPage', JSON.stringify(currentPage))
             localStorage.setItem('modifiedUser', JSON.stringify(modifiedUser))
             localStorage.setItem('filter', JSON.stringify(filter))
             localStorage.setItem('sortInfo', JSON.stringify(sortInfo))
+            localStorage.setItem('itemPerPage', JSON.stringify(itemPerPage))
         }
     )
     const includedColumns = ["name", "username", 'email'];
@@ -58,6 +71,24 @@ function UserList() {
         });
     }
 
+    let totalPage
+    if (typeof modifiedUser.length === 'number' && typeof itemPerPage === 'number') {
+        if (modifiedUser.length % itemPerPage !== 0) {
+            totalPage = Math.floor(modifiedUser.length / itemPerPage) + 1
+        } else {
+            totalPage = Math.floor(modifiedUser.length / itemPerPage)
+        }
+
+    }
+    let paginationItem = []
+    for (let number = 1; number <= totalPage; number++) {
+        paginationItem.push(
+            <Pagination.Item key={number} active={number === currentPage} onClick={()=> setCurrentPage(number)}>
+                {number}
+            </Pagination.Item>,
+        );
+    }
+
     return (
         <>
             <div className={'row mt-3'}>
@@ -73,6 +104,13 @@ function UserList() {
                     <Form>
                         <Form.Group controlId="formBasicEmail">
                             <Form.Label>Type any thing to search</Form.Label>
+                        </Form.Group>
+                    </Form>
+                </div>
+                <div className={'col-4'}>
+                    <Form>
+                        <Form.Group>
+                            <Form.Label>Number of item on page </Form.Label>
                         </Form.Group>
                     </Form>
                 </div>
@@ -107,6 +145,22 @@ function UserList() {
                         </Form.Group>
                     </Form>
                 </div>
+                <div className={'col-4'}>
+                    <Form>
+                        <Form.Group controlId="formBasicEmail">
+                            <Form.Control type="number"
+                                          min="1"
+                                          value={itemPerPage}
+                                          onChange={(e) => {
+                                              {
+                                                  setCurrentPage(1)
+                                                  setItemPerPage(parseInt(e.target.value))
+                                              }
+                                          }}
+                            />
+                        </Form.Group>
+                    </Form>
+                </div>
             </div>
 
             <Table striped bordered hover className={'mt-3'}>
@@ -118,7 +172,7 @@ function UserList() {
                 </tr>
                 </thead>
                 <tbody>
-                {modifiedUser.map((user, index) => (
+                {modifiedUser.slice(firstItem, lastItem).map((user, index) => (
                     <tr key={index}>
 
                         <td><Link to={`/users/${user.id}`}>{user.name} </Link></td>
@@ -130,6 +184,9 @@ function UserList() {
                 ))}
                 </tbody>
             </Table>
+            <div>
+                <Pagination>{paginationItem}</Pagination>
+            </div>
         </>
 
     );
