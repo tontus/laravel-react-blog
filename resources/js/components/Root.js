@@ -5,10 +5,11 @@ import {
     BrowserRouter as Router,
     Switch,
     Route,
-    Link
+    Redirect
 } from "react-router-dom";
 import PostList from "./pages/posts/PostList";
 import Header from "./layout/Header";
+import PostView from "./pages/posts/PostView";
 
 
 function Root() {
@@ -19,10 +20,14 @@ function Root() {
 
                 <Container>
                     <Switch>
-                        <Route path="/users">
+                        <Route path="/posts/:id" exact={true} component={PostView}/>
+                        <Route path="/users" exact={true}>
                            <h1>TODO user list</h1>
                         </Route>
-                        <Route path="/">
+                        <Route path="/" exact={true}>
+                            <Redirect to="/posts"/>
+                        </Route>
+                        <Route path="/posts" exact={true}>
                             <PostList/>
                         </Route>
 

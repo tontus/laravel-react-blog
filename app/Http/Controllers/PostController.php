@@ -77,7 +77,7 @@ class PostController extends Controller
         $post = Post::find($id);
         return response()->json([
             'success'=> true,
-            'message'=>'Post details',
+            'message'=>'PostView details',
             'data'=>$post
         ]);
     }
@@ -122,7 +122,7 @@ class PostController extends Controller
         $comments = Comment::where('post_id',$id)->get();
         return response()->json([
             'success'=> true,
-            'message'=>'Post comments',
+            'message'=>'PostView comments',
             'data'=>$comments
         ]);
     }
