@@ -18,3 +18,12 @@ export const fetchPost = async (id) => {
             }
         )
 }
+export const fetchAllComments = async (id) => {
+    let url = baseURL.concat(id).concat('/comments')
+    return await axios.get(url)
+        .then( res=>{
+
+                return res.data
+            }
+        )
+}

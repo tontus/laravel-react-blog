@@ -119,7 +119,7 @@ class PostController extends Controller
 
     public function postComments($id)
     {
-        $comments = Comment::where('post_id',$id)->get();
+        $comments = Post::find($id)->comments;
         return response()->json([
             'success'=> true,
             'message'=>'PostView comments',
