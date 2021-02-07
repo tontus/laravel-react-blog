@@ -11,6 +11,7 @@ import PostList from "./pages/posts/PostList";
 import Header from "./layout/Header";
 import PostView from "./pages/posts/PostView";
 import UserList from "./pages/users/UserList";
+import UserView from "./pages/users/UserView";
 
 
 function Root() {
@@ -22,6 +23,7 @@ function Root() {
                 <Container>
                     <Switch>
                         <Route path="/posts/:id" exact={true} component={PostView}/>
+                        <Route path="/users/:id" exact={true} component={UserView}/>
                         <Route path="/users" exact={true}>
                            <UserList/>
                         </Route>

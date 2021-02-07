@@ -17,3 +17,13 @@ export const fetchUser = async (id) => {
             }
         )
 }
+
+export const fetchAllPostsOfUser = async (id) => {
+    let url = baseURL.concat(id).concat('/posts')
+    return await axios.get(url)
+        .then( res=>{
+
+                return res.data
+            }
+        )
+}
