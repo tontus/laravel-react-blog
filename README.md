@@ -1,5 +1,6 @@
 ## Simple Blog using Laravel as backend and React as frontend 
-###Laravel part:
+
+### Laravel part:
 - Rest API for models
 - Authentication using passport
 - Fake data generator for user, post and comment

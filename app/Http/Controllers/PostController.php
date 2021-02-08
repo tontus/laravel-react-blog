@@ -16,7 +16,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::withCount('comments')->get();
+        $posts = Post::withCount('comments')->orderBy('id', 'DESC')->get();
         return response()->json([
             'success'=> true,
             'message'=>'post list',
