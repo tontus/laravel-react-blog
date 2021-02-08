@@ -1,10 +1,24 @@
-import {Button, Container, Nav, Navbar} from "react-bootstrap";
-import React, {useContext} from "react";
-import {Link} from "react-router-dom";
-import CurrentUserContext from "../contexts/CurrentUserContext";
+import {Button, Container, Form, Nav, Navbar, Spinner} from "react-bootstrap";
+import React, {useContext, useState} from "react";
+import {Link, useHistory} from "react-router-dom";
+import {CurrentUserContext} from "../contexts/CurrentUserContext";
+import {login, logout} from "../../services/AuthService";
 
 function Header() {
-    const currentUser = useContext(CurrentUserContext)
+    const [isLoading,setIsloading]= useState(false)
+    const [currentUser,setCurrentUser] = useContext(CurrentUserContext)
+    let history = useHistory()
+    const logoutHandler = async (e)=>{
+        e.preventDefault();
+        setIsloading(true)
+        const response = await logout();
+        if (response){
+            setIsloading(false)
+            setCurrentUser(null)
+            history.push(`/login`);
+
+        }
+    }
     return (
         <>
             <Navbar bg="dark" expand="lg" variant={'dark'} sticky={"top"}>
@@ -16,7 +30,7 @@ function Header() {
                             <Nav.Link href="/posts">Posts</Nav.Link>
                             <Nav.Link href="/users">Users</Nav.Link>
 
-                            {!currentUser.username && (
+                            {!currentUser && (
                                 <>
                                     <Nav.Link href="/register">Register</Nav.Link>
                                     <Nav.Link href="/login">login</Nav.Link>
@@ -25,10 +39,23 @@ function Header() {
                             }
 
                         </Nav>
-                        {currentUser.username && (
+                        {currentUser && (
                             <>
                                 <span className={'text-white'}>Logged in as: {currentUser.username} &nbsp;&nbsp;</span>
-                                <Button variant="danger">Logout</Button>
+                                { isLoading && (
+                                    <Button variant="danger" type="button" disabled>
+                                        <Spinner animation="border" role="status">
+                                            <span className="sr-only">Loading...</span>
+                                        </Spinner>{" "}
+                                        Saving...
+                                    </Button>
+                                )}
+
+                                { !isLoading && (
+                                    <Button variant="danger" type="button" onClick={(e)=>logoutHandler(e)}>
+                                        Logout
+                                    </Button>
+                                )}
                             </>
                         )}
                     </Navbar.Collapse>

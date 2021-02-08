@@ -71,7 +71,7 @@ class AuthAPIController extends Controller
         } else {
             return response()->json([
                 'success' => false,
-                'message' => 'Registration Cannot successfull !',
+                'message' => 'Registration was not successful !',
                 'errors' => null,
             ]);
         }
@@ -80,6 +80,13 @@ class AuthAPIController extends Controller
 //            'message'=>'user saved',
 //            'data'=> $user,
 //        ]);
+    }
+    public function logout(Request $request){
+        Auth::logout();
+        return response()->json([
+            'success' => true,
+            'message' => 'logged out',
+        ]);
     }
 
 

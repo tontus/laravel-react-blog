@@ -13,7 +13,8 @@ export const register = async (data) => {
 export const login = async (data) => {
     return await axios.post(baseURL.concat('login'),data)
         .then(res => {
-            localStorage.setItem('loginData',res.data);
+            localStorage.setItem('loginData',JSON.stringify(res.data));
+            console.log(res.data)
             return  res.data;
         })
 
@@ -23,6 +24,7 @@ export const checkAuth = ()=>{
     const getLoginData = localStorage.getItem('loginData')
     if(getLoginData !== null){
         const data = JSON.parse(getLoginData)
+        console.log(data)
         if (data.success && data.access_token !== null)
             return data.user
         else
@@ -30,4 +32,11 @@ export const checkAuth = ()=>{
     }
     else
         return false
+}
+export const logout = async() =>{
+    return await axios.get(baseURL.concat('logout'))
+        .then(res => {
+            localStorage.removeItem('loginData');
+            return  true;
+        })
 }

@@ -17,14 +17,14 @@ import Register from "./pages/auths/Register";
 import Login from "./pages/auths/Login";
 import {checkAuth} from "../services/AuthService";
 import PrivateRoute from "./PrivateRoute";
-import CurrentUserContext from "./contexts/CurrentUserContext";
+import CurrentUserContext, {CurrentUserProvider} from "./contexts/CurrentUserContext";
 
 
 function Root() {
     const [isLoggedIn, setIsLoggedIn] = useState(() => {
         if (checkAuth()) {
             return true
-        } else false
+        } else return false
     })
     const [currentUser,setCurrentUser] = useState({})
     useEffect(()=>{
@@ -36,7 +36,7 @@ function Root() {
     return (
         <Router>
             <>
-                <CurrentUserContext.Provider value={currentUser}>
+                <CurrentUserProvider>
                 <Header/>
                 <Container>
                     <Switch>
@@ -55,7 +55,7 @@ function Root() {
                     </Switch>
                 </Container>
                 <Footer/>
-                </CurrentUserContext.Provider>
+                </CurrentUserProvider>
             </>
 
 

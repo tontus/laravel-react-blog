@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {useHistory } from "react-router-dom";
+import {Redirect, useHistory} from "react-router-dom";
 import {Button, Card, Form, Spinner} from "react-bootstrap";
 import PostView from "../posts/PostView";
 import {login} from "../../../services/AuthService";
@@ -24,7 +24,7 @@ const Register =() =>{
         if (response.success) {
             setUserName("")
             setPassword("")
-            history.push(`/`);
+            return <Redirect to='/' />
         } else {
             console.log("response.errors", response.message);
             setErrors(response.message)
