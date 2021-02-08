@@ -17,4 +17,11 @@ class Post extends Model
     {
         return $this->belongsTo(User::class);
     }
+    public static function boot() {
+        parent::boot();
+
+        static::deleting(function($post) { // before delete() method call this
+            $post->comments()->delete();
+        });
+    }
 }

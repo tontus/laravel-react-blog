@@ -18,6 +18,13 @@ export const fetchPost = async (id) => {
             }
         )
 }
+export const deletePost = async (id) => {
+    return await axios.delete(baseURL.concat(id))
+        .then( res=>{
+            return res.data
+            }
+        )
+}
 export const fetchAllComments = async (id) => {
     let url = baseURL.concat(id).concat('/comments')
     return await axios.get(url)
