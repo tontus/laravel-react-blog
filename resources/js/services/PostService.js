@@ -27,3 +27,10 @@ export const fetchAllComments = async (id) => {
             }
         )
 }
+
+export const createPost= async (data) =>{
+    return await axios.post(baseURL,data).then(res => {
+        console.log(res.data)
+        return  res.data;
+    })
+}

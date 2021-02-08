@@ -28,7 +28,8 @@ function PostList() {
         )
     }, []);
     return (
-        <> {posts.slice(0, visible).map((post, index) => (
+        <>  <Button variant="success" className={'mt-3'}><Link to={'/posts/create'} className={"text-white"}>+ Create Post</Link></Button>
+            {posts.slice(0, visible).map((post, index) => (
             <Card className={'mt-3'} key={index}>
                 <Card.Header>
                     {post.title} <span style={{float: 'right'}}> <Badge

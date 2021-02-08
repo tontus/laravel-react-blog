@@ -28,6 +28,8 @@ Route::resource('users', UserController::class);
 Route::get('/posts/{id}/comments', [PostController::class, 'postComments']);
 Route::resource('posts', PostController::class);
 
+Route::resource('comments',\App\Http\Controllers\CommentController::class);
+
 //login routes
 Route::post('auth/login',[\App\Http\Controllers\Auth\AuthAPIController::class,'login']);
 Route::post('auth/register',[\App\Http\Controllers\Auth\AuthAPIController::class,'register']);

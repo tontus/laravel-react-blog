@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Comment;
+use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class CommentController extends Controller
 {
@@ -30,11 +33,32 @@ class CommentController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
-        //
+        $formData = $request->all();
+        $validator = Validator::make($formData, [
+            'comment' => ['required'],
+            'post_id' => ['required'],
+            'user_id' => ['required'],
+        ]);
+        if($validator->fails()){
+            return response()->json([
+                'success'=> false,
+                'errors'=>$validator->errors(),
+            ]);
+        }
+        $comment = New Comment();
+        $comment->comment =$request->comment;
+        $comment->post_id =$request->post_id;
+        $comment->user_id =$request->user_id;
+        $comment->save();
+        return response()->json([
+            'success'=> true,
+            'message'=>'post saved',
+            'data'=> $comment,
+        ]);
     }
 
     /**

@@ -17,7 +17,8 @@ import Register from "./pages/auths/Register";
 import Login from "./pages/auths/Login";
 import {checkAuth} from "../services/AuthService";
 import PrivateRoute from "./PrivateRoute";
-import CurrentUserContext, {CurrentUserProvider} from "./contexts/CurrentUserContext";
+import {CurrentUserProvider} from "./contexts/CurrentUserContext";
+import PostCreate from "./pages/posts/PostCreate";
 
 
 function Root() {
@@ -40,10 +41,12 @@ function Root() {
                 <Header/>
                 <Container>
                     <Switch>
+                        <PrivateRoute path="/posts/create" authed={isLoggedIn} exact={true} component={PostCreate}/>
                         <PrivateRoute path="/posts/:id" authed={isLoggedIn} exact={true} component={PostView}/>
                         <PrivateRoute path="/users/:id" authed={isLoggedIn} exact={true} component={UserView}/>
                         <PrivateRoute path="/users" authed={isLoggedIn} exact={true} component={UserList}/>
                         <PrivateRoute path="/posts" authed={isLoggedIn} exact={true} component={PostList}/>
+
                         <Route path="/register" exact={true}>
                             <Register/>
                         </Route>
