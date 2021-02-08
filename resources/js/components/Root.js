@@ -35,9 +35,7 @@ function Root() {
                         <PrivateRoute path="/posts/:id" authed={isLoggedIn} exact={true} component={PostView}/>
                         <PrivateRoute path="/users/:id" authed={isLoggedIn} exact={true} component={UserView}/>
                         <PrivateRoute path="/users" authed={isLoggedIn} exact={true} component={UserList}/>
-                        <Route path="/" exact={true}>
-                            <Redirect to="/posts"/>
-                        </Route>
+                        <PrivateRoute path="/"  authed={isLoggedIn} exact={true} component={PostView}/>
                         <PrivateRoute path="/posts" authed={isLoggedIn} exact={true} component={PostList}/>
                         <Route path="/register" exact={true}>
                             <Register/>

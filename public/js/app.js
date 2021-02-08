@@ -5226,12 +5226,11 @@ function Root() {
             authed: isLoggedIn,
             exact: true,
             component: _pages_users_UserList__WEBPACK_IMPORTED_MODULE_5__.default
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_15__.Route, {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_PrivateRoute__WEBPACK_IMPORTED_MODULE_11__.default, {
             path: "/",
+            authed: isLoggedIn,
             exact: true,
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_15__.Redirect, {
-              to: "/posts"
-            })
+            component: _pages_posts_PostView__WEBPACK_IMPORTED_MODULE_4__.default
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_PrivateRoute__WEBPACK_IMPORTED_MODULE_11__.default, {
             path: "/posts",
             authed: isLoggedIn,
@@ -5340,7 +5339,7 @@ function Header() {
           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)(react_bootstrap__WEBPACK_IMPORTED_MODULE_4__.default, {
             className: "mr-auto",
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(react_bootstrap__WEBPACK_IMPORTED_MODULE_4__.default.Link, {
-              href: "/",
+              href: "/posts",
               children: "Posts"
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(react_bootstrap__WEBPACK_IMPORTED_MODULE_4__.default.Link, {
               href: "/users",
