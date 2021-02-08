@@ -41,7 +41,7 @@ function Header() {
                         </Nav>
                         {currentUser && (
                             <>
-                                <span className={'text-white'}>Logged in as: {currentUser.username} &nbsp;&nbsp;</span>
+                                <span className={'text-white'}>Logged in as: <Link to={`/users/${currentUser.id}`}>{currentUser.username}</Link> &nbsp;&nbsp;</span>
                                 { isLoading && (
                                     <Button variant="danger" type="button" disabled>
                                         <Spinner animation="border" role="status">
