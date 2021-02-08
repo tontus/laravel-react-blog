@@ -5,15 +5,15 @@ import {CurrentUserContext} from "../contexts/CurrentUserContext";
 import {login, logout} from "../../services/AuthService";
 
 function Header() {
-    const [isLoading,setIsloading]= useState(false)
+    const [isLoading,setIsLoading]= useState(false)
     const [currentUser,setCurrentUser] = useContext(CurrentUserContext)
     let history = useHistory()
     const logoutHandler = async (e)=>{
         e.preventDefault();
-        setIsloading(true)
+        setIsLoading(true)
         const response = await logout();
         if (response){
-            setIsloading(false)
+            setIsLoading(false)
             setCurrentUser(null)
             history.push(`/login`);
 

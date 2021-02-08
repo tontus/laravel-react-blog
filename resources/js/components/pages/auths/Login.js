@@ -1,19 +1,21 @@
-import React, {useState} from "react";
+import React, {useContext, useState} from "react";
 import {Redirect, useHistory} from "react-router-dom";
 import {Button, Card, Form, Spinner} from "react-bootstrap";
 import PostView from "../posts/PostView";
 import {login} from "../../../services/AuthService";
+import {CurrentUserContext} from "../../contexts/CurrentUserContext";
 const Register =() =>{
     const [username,setUserName] = useState("")
     const [password,setPassword] = useState("")
     const [errors,setErrors] = useState({})
-    const [isLoading,setIsloading]= useState(false)
+    const [isLoading,setIsLoading]= useState(false)
+    const [currentUser,setCurrentUser] = useContext(CurrentUserContext)
     let history = useHistory()
 
     const submitForm = async (e) => {
         e.preventDefault();
         // const { history } = this.props;
-        setIsloading(true)
+        setIsLoading(true)
 
 
         const userData = {
@@ -24,7 +26,12 @@ const Register =() =>{
         if (response.success) {
             setUserName("")
             setPassword("")
-            return <Redirect to='/' />
+            if (response){
+                setIsLoading(false)
+                setCurrentUser(response.user)
+                history.push(`/posts`);
+
+            }
         } else {
             console.log("response.errors", response.message);
             setErrors(response.message)

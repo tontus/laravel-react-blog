@@ -24,7 +24,6 @@ export const checkAuth = ()=>{
     const getLoginData = localStorage.getItem('loginData')
     if(getLoginData !== null){
         const data = JSON.parse(getLoginData)
-        console.log(data)
         if (data.success && data.access_token !== null)
             return data.user
         else
