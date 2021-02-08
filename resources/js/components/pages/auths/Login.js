@@ -1,6 +1,6 @@
 import React, {useContext, useState} from "react";
 import {Redirect, useHistory} from "react-router-dom";
-import {Button, Card, Form, Spinner} from "react-bootstrap";
+import {Alert, Button, Card, Form, Spinner} from "react-bootstrap";
 import PostView from "../posts/PostView";
 import {login} from "../../../services/AuthService";
 import {CurrentUserContext} from "../../contexts/CurrentUserContext";
@@ -10,6 +10,7 @@ const Register =() =>{
     const [errors,setErrors] = useState({})
     const [isLoading,setIsLoading]= useState(false)
     const [currentUser,setCurrentUser] = useContext(CurrentUserContext)
+    const [show, setShow] = useState(true);
     let history = useHistory()
 
     const submitForm = async (e) => {
@@ -33,9 +34,9 @@ const Register =() =>{
 
             }
         } else {
-            console.log("response.errors", response.message);
-            setErrors(response.message)
-            setIsloading(false)
+
+            setErrors(()=> response.errors ? response.errors : null)
+            setIsLoading(false)
         }
     };
 
@@ -48,6 +49,9 @@ const Register =() =>{
             </div>
 
             <Card>
+                {errors[0]  && (
+                    <Alert variant="danger" onClose={() => setShow(false)} dismissible>{errors[0]}</Alert>
+                )}
                 <Card.Body>
                     <Form onSubmit={submitForm}>
                         <Form.Group controlId="username">

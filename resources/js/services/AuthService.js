@@ -14,7 +14,6 @@ export const login = async (data) => {
     return await axios.post(baseURL.concat('login'),data)
         .then(res => {
             localStorage.setItem('loginData',JSON.stringify(res.data));
-            console.log(res.data)
             return  res.data;
         })
 

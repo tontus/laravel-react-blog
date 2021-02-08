@@ -6,7 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class AuthAPIController extends Controller
 {
@@ -22,7 +24,11 @@ class AuthAPIController extends Controller
             ]
         );
         if(!Auth::attempt($login)){
-            return 'false';
+            return response()->json([
+                'success'=> false,
+                'errors'=>['auth fails'],
+
+            ]);
         }else{
             $user = User::where('username',$request->username)->first();
             $accessToken = $user->createToken('authToken')->accessToken;
@@ -51,11 +57,16 @@ class AuthAPIController extends Controller
                 'message'=>$validator->errors(),
             ]);
         }
-        $user = New User();
-        $user->name =$request->name;
-        $user->username =$request->username;
-        $user->email =$request->email;
-        $user->password =$request->password;
+        $request['password']=Hash::make($request['password']);
+        $request['remember_token'] = Str::random(10);
+        $user = User::create($request->toArray());
+        $token = $user->createToken('Laravel Password Grant Client')->accessToken;
+        $response = ['token' => $token];
+//        $user = New User();
+//        $user->name =$request->name;
+//        $user->username =$request->username;
+//        $user->email =$request->email;
+//        $user->password =$request->password;
 //        $user->email_verified_at = now();
 //        $user->remember_token = Str::random(10);
         $user->save();
