@@ -56,7 +56,7 @@ class CommentController extends Controller
         $comment->save();
         return response()->json([
             'success'=> true,
-            'message'=>'post saved',
+            'message'=>'Comment saved',
             'data'=> $comment,
         ]);
     }
