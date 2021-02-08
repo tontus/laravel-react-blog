@@ -20,11 +20,13 @@ import PrivateRoute from "./PrivateRoute";
 
 
 function Root() {
-    const [isLoggedIn, setIsLoggedIn] = useState(false)
-    useEffect(() => {
+    const [isLoggedIn, setIsLoggedIn] = useState(() => {
         if (checkAuth()) {
-            setIsLoggedIn(true)
-        }
+            return true
+        } else false
+    })
+    useEffect(() => {
+
     }, [])
     return (
         <Router>
@@ -35,7 +37,7 @@ function Root() {
                         <PrivateRoute path="/posts/:id" authed={isLoggedIn} exact={true} component={PostView}/>
                         <PrivateRoute path="/users/:id" authed={isLoggedIn} exact={true} component={UserView}/>
                         <PrivateRoute path="/users" authed={isLoggedIn} exact={true} component={UserList}/>
-                        <PrivateRoute path="/"  authed={isLoggedIn} exact={true} component={PostView}/>
+                        <PrivateRoute path="/" authed={isLoggedIn} exact={true} component={PostView}/>
                         <PrivateRoute path="/posts" authed={isLoggedIn} exact={true} component={PostList}/>
                         <Route path="/register" exact={true}>
                             <Register/>
