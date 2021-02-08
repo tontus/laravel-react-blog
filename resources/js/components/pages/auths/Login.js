@@ -27,9 +27,9 @@ const Register =() =>{
             setUserName("")
             setPassword("")
             if (response){
-                setIsLoading(false)
+                // setIsLoading(false)
                 setCurrentUser(response.user)
-                history.push(`/posts`);
+                history.push(`/`);
 
             }
         } else {

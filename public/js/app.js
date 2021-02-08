@@ -5631,9 +5631,9 @@ var Register = function Register() {
                 setPassword("");
 
                 if (response) {
-                  setIsLoading(false);
+                  // setIsLoading(false)
                   setCurrentUser(response.user);
-                  history.push("/posts");
+                  history.push("/");
                 }
               } else {
                 console.log("response.errors", response.message);
